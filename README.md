@@ -3,6 +3,13 @@
 Commerce is a website where users can register and place listing aswell as bid on other people's listings.
 The website is build using the Django web framework
 
+## Databases
+
+The website uses five classes in total to story the databases.
+The fields of the attributes are fields using the django model object.
+![database1](database1.png)
+
+![database2](database2.png)
 
 ## Design
 
@@ -22,12 +29,23 @@ The page will look almost identical to the active listings page
 # Watchlist page
 The watchlist page will look almost identical to the active listings page.
 This page will only show the user listings on their watchlist.
-![watchlist](images/active_listings.png)
+![watchlist](images/watchlist.png)
 
 # Listing page
 The page for a single listing will look like this:
-![watchlist](images/active_listings.png)
+![watchlist](images/listing.png)
 
-# The User is also able to create 
+# Create listing
+The User is also able to create new listings:
+![create listing](images/create_listing.png)
+
+# Categories
+The User is also able to filter based on category:
+![category](images/categories.png)
+
+# Categories2
+When the user filters by category they will go to a listings page with the correct filter:
+![category2](images/categories.png)
+
 
 
