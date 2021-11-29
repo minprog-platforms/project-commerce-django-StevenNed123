@@ -7,9 +7,9 @@ The website is build using the Django web framework
 
 The website uses five classes in total to story the databases.
 The fields of the attributes are fields using the django model object.
-![database1](images/database1.png)
+![database1](images/Database1.png)
 
-![database2](images/database2.png)
+![database2](images/Database2.png)
 
 ## Design
 
