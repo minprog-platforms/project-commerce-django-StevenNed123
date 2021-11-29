@@ -1,7 +1,7 @@
 # Commerce
 
-Commerce is a website where users can register and place listing aswell as bid on other people's listings.
-The website is build using the Django web framework
+Commerce is a website where users can register and place listings aswell as bid on other people's listings.
+The website is build using the Django web framework.
 
 ## Databases
 
