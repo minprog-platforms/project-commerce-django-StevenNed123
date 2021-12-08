@@ -12,21 +12,18 @@
         <li>{{ mineral.rarity }} : {{ mineral.name}}</li>
     {% endfor %}
     </ul>
-    {{ mine.rate }} drops/hour
+    {{ mine.rate }} drops/hour <br>
 
         {% if mine in active_mines %}
-
-            <form action="{% url 'start_mining' mine.name %}" method="post">
-                {% csrf_token %}
-                <label for="dwarf">Choose a Dwarf:</label>
-                <select name="dwarf">
-                    {% for dwarf in dwarves %}
-                        <option value={{ dwarf.name }}>{{ dwarf.name }}</option>
-                    {% endfor %}
-                </select>
-
-                <input type="submit" name={{ mine.name }} value="Start Mining">
-            </form>
+            {% for job in active_jobs %}
+                {% if job.mine == mine %}
+                    {{ job.dwarf.name }} is currently mining
+                    <form action="{% url 'stop_mining' mine.name %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" name={{ mine.name }} value="Stop Mining">
+                    </form>
+                {% endif %}
+            {% endfor %}
 
         {% else %}
 
@@ -34,7 +31,7 @@
                 {% csrf_token %}
                 <label for="dwarf">Choose a Dwarf:</label>
                 <select name="dwarf">
-                    {% for dwarf in dwarves %}
+                    {% for dwarf in inactive_dwarves %}
                         <option value={{ dwarf.name }}>{{ dwarf.name }}</option>
                     {% endfor %}
                 </select>
@@ -45,7 +42,4 @@
         {% endif %}
 
 {% endfor %}
-        {% for mine in active_mines %}
-            {{mine.name}}
-        {% endfor %}
 {% endblock %}

@@ -10,8 +10,12 @@ from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Max
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
-from .models import User, Mineral, Mine, Dwarf, Upgrade, Upgrade_owned, Job
+from random import random
+
+from .models import User, Mineral, Mine, Dwarf, Upgrade, Upgrade_owned, Job, possible_minerals
+
 
 amount_portraits = 20
 
@@ -38,17 +42,20 @@ def leaderboard(request):
  
 def mining(request):
     mines = Mine.objects.all()
-    dwarves = request.user.user_dwarfs.all()
     active_jobs = Job.objects.filter(dwarf__in=request.user.user_dwarfs.all())
     active_mines = []
+    active_dwarves = []
     for job in active_jobs:
+        active_dwarves.append(job.dwarf.name)
         active_mines.append(job.mine)
+    inactive_dwarves = request.user.user_dwarfs.exclude(name__in=active_dwarves)
     return render(request, "dwarves/mining.html",{
         "mines" : mines,
-        "dwarves" : dwarves,
         "active_mines" : active_mines,
         "active_jobs" : active_jobs,
+        "inactive_dwarves" : inactive_dwarves,
     })
+
 
 def start_mining(request, name):
     if request.method == "POST":
@@ -60,6 +67,68 @@ def start_mining(request, name):
             new_job = Job(start_time = timezone.now(), dwarf=dwarf, mine=mine)
             new_job.save()
     return redirect("mining")
+
+
+def stop_mining(request, name):
+    if request.method == "POST":
+        active_jobs = Job.objects.filter(dwarf__in=request.user.user_dwarfs.all())
+        current_job = active_jobs.get(mine=Mine.objects.get(name=name))
+        drops = get_drops(current_job)
+        current_job.delete()
+
+        for drop in drops:
+            try:
+                mineral = request.user.inventory.get(name=drop[0])
+            except ObjectDoesNotExist:
+                mineral = Mineral(name=drop[0], user=request.user)
+            mineral.value += drop[1]
+            mineral.save()
+            if drop[0] == "gold":
+                request.user.gold_obtained += drop[1]
+                request.user.save()
+
+    return redirect("mining")
+
+# the algorithm to calculate the drops
+def get_drops(job):
+    time = (timezone.now() - job.start_time).seconds / 60
+    drop_rate = job.mine.rate / 60
+    minerals = job.mine.minerals.all()
+    drops = []
+    chances = calculate_chance(minerals, job.dwarf.discovery)
+    total_value = 0
+    for mineral in minerals:
+        value = round((drop_rate * time * job.dwarf.speed) * chances[mineral.name])
+        drops.append([mineral.name, value])
+        total_value += value
+    # shrink down drops if outside of capacity
+    if job.dwarf.capacity < total_value:
+        factor = job.dwarf.capacity/total_value
+        drops = [[drop[0], round(drop[1]*factor)] for drop in drops]
+
+    return drops
+
+def calculate_chance(minerals, discovery):
+    drop_table = {"common" : 0.68, "uncommon" : 0.25 * ((discovery - 1) * 0.5 + discovery),
+                    "rare" : 0.06 * discovery, "very_rare" : 0.01 * discovery}
+    chances = {}
+    total_chance = 0
+    for mineral in minerals:
+        chance = drop_table[mineral.rarity] * random()
+        chances[mineral.name] = chance
+        total_chance += chance
+    # standardize the chances to sum to 1
+    for name in chances:
+        chances[name] = chances[name] / total_chance
+
+    return chances
+
+
+
+
+
+
+
             
 
 class SelectionForm(forms.Form):

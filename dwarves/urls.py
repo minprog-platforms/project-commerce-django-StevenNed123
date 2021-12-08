@@ -12,6 +12,7 @@ urlpatterns = [
     path("mining", views.mining, name="mining"),
     path("upgrading", views.upgrading, name="upgrading"),
     path("inventory", views.inventory, name="inventory"),
-    path("start_mining/<str:name>", views.start_mining, name="start_mining")
+    path("start_mining/<str:name>", views.start_mining, name="start_mining"),
+    path("stop_mining/<str:name>", views.stop_mining, name="stop_mining")
 
 ]
