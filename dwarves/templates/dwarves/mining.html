@@ -1,0 +1,51 @@
+{% extends "dwarves/layout.html" %}
+
+{% block body %}
+<h1>Mining</h1>
+
+<div class="container">
+
+{% for mine in mines %}
+    <h3>{{ mine.name }}</h3>
+    <ul>
+    {% for mineral in mine.minerals.all %}
+        <li>{{ mineral.rarity }} : {{ mineral.name}}</li>
+    {% endfor %}
+    </ul>
+    {{ mine.rate }} drops/hour
+
+        {% if mine in active_mines %}
+
+            <form action="{% url 'start_mining' mine.name %}" method="post">
+                {% csrf_token %}
+                <label for="dwarf">Choose a Dwarf:</label>
+                <select name="dwarf">
+                    {% for dwarf in dwarves %}
+                        <option value={{ dwarf.name }}>{{ dwarf.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit" name={{ mine.name }} value="Start Mining">
+            </form>
+
+        {% else %}
+
+            <form action="{% url 'start_mining' mine.name %}" method="post">
+                {% csrf_token %}
+                <label for="dwarf">Choose a Dwarf:</label>
+                <select name="dwarf">
+                    {% for dwarf in dwarves %}
+                        <option value={{ dwarf.name }}>{{ dwarf.name }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="submit" name={{ mine.name }} value="Start Mining">
+            </form>
+
+        {% endif %}
+
+{% endfor %}
+        {% for mine in active_mines %}
+            {{mine.name}}
+        {% endfor %}
+{% endblock %}

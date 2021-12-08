@@ -1,0 +1,17 @@
+{% extends "dwarves/layout.html" %}
+
+{% block body %}
+<h1>Leaderboard</h1>
+
+<ol>
+    <div class="container">
+{% for user in users %}
+    <li><h3>{{ user.username }}<div class= "container">Gold Obtained: {{user.gold_obtained }}</div></h3></li>
+{% endfor %}
+    </div>
+</ol>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Dwarves{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link href="{% static 'dwarves/styles.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>Dwarves</h1>
+        <div>
+            {% if user.is_authenticated %}
+                Signed in as <strong>{{ user.username }}</strong>.
+            {% else %}
+                Not signed in.
+            {% endif %}
+        </div>
+        <ul class="nav justify-content-center nav-fill">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'all_dwarves' %}">All Dwarves</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_dwarves' %}">My dwarves</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'leaderboard' %}">Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+        <hr>
+        <div class="vertical-nav">
+            <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'mining' %}">Mining</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'upgrading' %}">Upgrading</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'inventory' %}">Inventory</a>
+            </li>
+            </ul>
+        </div>
+
+        <div class=main>
+            <div class="container">
+            {% block body %}
+            {% endblock %}
+            </div>
+        </div>
+
+    </body>
+</html>

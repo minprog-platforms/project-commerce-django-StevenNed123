@@ -1,0 +1,31 @@
+body {
+    padding: 10px;
+    background-color:wheat !important;
+}
+
+img {
+    height: 200px;
+}
+
+.alert {
+    width:30%;
+}
+
+.nav-link { 
+    font-size: 150% !important;
+}
+
+.vertical-nav{
+    float: left !important;
+  }
+
+.main-portrait{
+    float: left;  
+    margin-right: 50px;
+}
+
+#mainbox{
+    background-color:peachpuff !important;
+}
+
+

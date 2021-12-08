@@ -1,0 +1,21 @@
+{% extends "dwarves/layout.html" %}
+{% load static %}
+
+{% block body %}
+<h1>{{ page_title }}</h1>
+
+{% for dwarf in dwarves %}
+<div class="container shadow-lg p-3 mb-5 bg-body rounded", id=mainbox> 
+    <img class="main-portrait" src="{% static '/dwarves/media/'|add:dwarf.portrait %}" alt="potrait{{ dwarf.portrait }}4"/>
+    <ul>
+        <li>Name: {{ dwarf.name }}</li>
+        <li>User: {{ dwarf.user }}</li>
+        <li>Speed: {{dwarf.speed}}</li>
+        <li>Capacity: {{dwarf.capacity}}</li>
+        <li>Discovery: {{dwarf.discovery}}</li>
+    </ul>
+</div>
+{% endfor %}
+
+
+{% endblock %}
