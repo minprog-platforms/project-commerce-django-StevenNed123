@@ -28,4 +28,8 @@ img {
     background-color:peachpuff !important;
 }
 
+.selection-link{
+    color: inherit !important;
+    text-decoration: inherit !important;
+}
 

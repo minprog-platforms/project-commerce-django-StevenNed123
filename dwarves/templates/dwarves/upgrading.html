@@ -1,8 +1,27 @@
 {% extends "dwarves/layout.html" %}
+{% load tags %}
 
 {% block body %}
-<h1>Upgrading</h1>
+<h1>{{ page_title }}</h1>
 
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-info" role="alert">
+        {{ message }}
+    </div>
+{% endfor %}
+{% endif %}
+
+{% for upgrade in upgrades %}
+    <h3> {{ upgrade.name }} </h3>
+    Effect: {{ upgrade|get_effect }}
+    <br>Cost: 
+    <ul>
+        {% for mineral in upgrade.cost.all %}
+            <li>{{ mineral.name }} : {{ mineral.value}}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
 
 
 

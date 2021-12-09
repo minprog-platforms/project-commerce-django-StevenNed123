@@ -50,7 +50,7 @@
               <a class="nav-link active" aria-current="page" href="{% url 'mining' %}">Mining</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'upgrading' %}">Upgrading</a>
+              <a class="nav-link" href="{% url 'select' %}">Upgrading</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'inventory' %}">Inventory</a>
@@ -58,12 +58,10 @@
             </ul>
         </div>
 
-        <div class=main>
             <div class="container">
             {% block body %}
             {% endblock %}
             </div>
-        </div>
 
     </body>
 </html>

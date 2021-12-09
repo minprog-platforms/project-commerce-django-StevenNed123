@@ -10,9 +10,9 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("leaderboard", views.leaderboard, name="leaderboard"),
     path("mining", views.mining, name="mining"),
-    path("upgrading", views.upgrading, name="upgrading"),
+    path("upgrading/<str:name>", views.upgrading, name="upgrading"),
     path("inventory", views.inventory, name="inventory"),
     path("start_mining/<str:name>", views.start_mining, name="start_mining"),
-    path("stop_mining/<str:name>", views.stop_mining, name="stop_mining")
-
+    path("stop_mining/<str:name>", views.stop_mining, name="stop_mining"),
+    path("select", views.select, name="select"),
 ]
